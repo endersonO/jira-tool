@@ -1,0 +1,11 @@
+# Build output
+jt
+dist/
+
+# Never commit credentials
+config.yml
+*.env
+.env
+
+# Go tooling
+vendor/

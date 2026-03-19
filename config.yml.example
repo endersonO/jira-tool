@@ -1,0 +1,14 @@
+# Jira Configuration Template
+# Copy this file to config.yml and fill in your details
+
+# Your Jira Cloud instance URL
+server: https://your-domain.atlassian.net
+
+# Your Jira account email
+email: your-email@example.com
+
+# Your Jira API token (generate at: https://id.atlassian.com/manage-profile/security/api-tokens)
+api_token: YOUR_API_TOKEN_HERE
+
+# Default project key
+project: YOUR_PROJECT_KEY

@@ -1,0 +1,68 @@
+package config
+
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+
+	"github.com/spf13/viper"
+)
+
+type Config struct {
+	Server  string `mapstructure:"server"`
+	Email   string `mapstructure:"email"`
+	Token   string `mapstructure:"token"`
+	Project string `mapstructure:"project"`
+}
+
+func Load() (*Config, error) {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+
+	// ~/.config/jt/config.yml
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return nil, err
+	}
+	viper.AddConfigPath(filepath.Join(home, ".config", "jt"))
+
+	// Also allow config in current directory (for development)
+	viper.AddConfigPath(".")
+
+	// Environment variable overrides: JT_SERVER, JT_EMAIL, JT_TOKEN, JT_PROJECT
+	viper.SetEnvPrefix("JT")
+	viper.AutomaticEnv()
+
+	// Also support legacy JIRA_ env vars
+	if v := os.Getenv("JIRA_SERVER"); v != "" {
+		viper.SetDefault("server", v)
+	}
+	if v := os.Getenv("JIRA_EMAIL"); v != "" {
+		viper.SetDefault("email", v)
+	}
+	if v := os.Getenv("JIRA_API_TOKEN"); v != "" {
+		viper.SetDefault("token", v)
+	}
+
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			return nil, fmt.Errorf("error reading config: %w", err)
+		}
+	}
+
+	cfg := &Config{}
+	if err := viper.Unmarshal(cfg); err != nil {
+		return nil, fmt.Errorf("error parsing config: %w", err)
+	}
+
+	if cfg.Server == "" || cfg.Email == "" || cfg.Token == "" {
+		return nil, fmt.Errorf("not configured — run `jt init` to get started")
+	}
+
+	return cfg, nil
+}
+
+func ConfigPath() string {
+	home, _ := os.UserHomeDir()
+	return filepath.Join(home, ".config", "jt", "config.yml")
+}
