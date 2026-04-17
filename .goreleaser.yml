@@ -3,7 +3,7 @@ version: 2
 
 before:
   hooks:
-    - cd jt-go && go mod tidy
+    - sh -c "cd jt-go && go mod tidy"
 
 builds:
   - id: jt
@@ -35,9 +35,19 @@ archives:
       {{- .Version }}_
       {{- .Os }}_
       {{- .Arch }}
+    formats:
+      - tar.gz
+      - zip
     format_overrides:
+      - goos: linux
+        formats:
+          - tar.gz
+      - goos: darwin
+        formats:
+          - tar.gz
       - goos: windows
-        format: zip
+        formats:
+          - zip
     files:
       - README.md
       - LICENSE
