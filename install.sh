@@ -43,9 +43,9 @@ else
   EXT="tar.gz"
 fi
 
-# Get latest release tag
+# Get latest release tag via redirect (no API rate limits)
 echo "Detecting latest version..."
-LATEST=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+LATEST=$(curl -fsSI "https://github.com/${REPO}/releases/latest" | grep -i "^location:" | sed -E 's|.*/tag/v?||' | tr -d '\r')
 
 if [ -z "$LATEST" ]; then
   echo "Error: Could not determine latest version. Check https://github.com/${REPO}/releases"

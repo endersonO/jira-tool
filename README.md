@@ -24,43 +24,27 @@ This auto-detects your OS and architecture, downloads the correct binary, and in
 
 ### Option 2: Download Binary Manually
 
-Download the latest release for your platform from the [Releases page](https://github.com/endersonO/jira-tool/releases/latest).
+Go to the [Releases page](https://github.com/endersonO/jira-tool/releases/latest) and download the file for your platform:
 
-**macOS:**
+| Platform | File |
+|----------|------|
+| macOS Apple Silicon (M1/M2/M3/M4) | `jt_<version>_darwin_arm64.tar.gz` |
+| macOS Intel | `jt_<version>_darwin_amd64.tar.gz` |
+| Linux AMD64 | `jt_<version>_linux_amd64.tar.gz` |
+| Linux ARM64 | `jt_<version>_linux_arm64.tar.gz` |
+| Windows | `jt_<version>_windows_amd64.zip` |
+
+**macOS / Linux — after downloading:**
 ```bash
-# Apple Silicon (M1/M2/M3/M4)
-curl -fsSL https://github.com/endersonO/jira-tool/releases/latest/download/jt_darwin_arm64.tar.gz -o jt.tar.gz
-
-# Intel Mac
-curl -fsSL https://github.com/endersonO/jira-tool/releases/latest/download/jt_darwin_amd64.tar.gz -o jt.tar.gz
-
-# Extract and install
-tar -xzf jt.tar.gz
+tar -xzf jt_*.tar.gz
 sudo mv jt /usr/local/bin/
-rm jt.tar.gz
 jt --version
 ```
 
-**Linux:**
-```bash
-# AMD64
-curl -fsSL https://github.com/endersonO/jira-tool/releases/latest/download/jt_linux_amd64.tar.gz -o jt.tar.gz
-
-# ARM64
-curl -fsSL https://github.com/endersonO/jira-tool/releases/latest/download/jt_linux_arm64.tar.gz -o jt.tar.gz
-
-# Extract and install
-tar -xzf jt.tar.gz
-sudo mv jt /usr/local/bin/
-rm jt.tar.gz
-jt --version
-```
-
-**Windows:**
-1. Download `jt_windows_amd64.zip` from the [Releases page](https://github.com/endersonO/jira-tool/releases/latest)
-2. Extract the ZIP file
-3. Move `jt.exe` to a folder in your PATH (e.g., `C:\Users\<you>\bin\`)
-4. Open a new terminal and run `jt --version`
+**Windows — after downloading:**
+1. Extract the ZIP file
+2. Move `jt.exe` to a folder in your PATH (e.g., `C:\Users\<you>\bin\`)
+3. Open a new terminal and run `jt --version`
 
 ### Option 3: Install from Source (Requires Go 1.26+)
 
