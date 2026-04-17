@@ -1,5 +1,5 @@
-# Build output
-jt
+# Build output (binary at repo root only)
+/jt
 dist/
 
 # Never commit credentials
