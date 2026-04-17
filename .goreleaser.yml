@@ -5,11 +5,15 @@ before:
   hooks:
     - sh -c "cd jt-go && go mod tidy"
 
+project_name: jt
+
 builds:
   - id: jt
     dir: jt-go
-    main: ./cmd/jt
+    main: ./cmd/jt/
     binary: jt
+    gomod:
+      proxy: false
     goos:
       - linux
       - darwin
