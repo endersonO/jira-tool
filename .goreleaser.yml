@@ -3,17 +3,12 @@ version: 2
 
 before:
   hooks:
-    - sh -c "cd jt-go && go mod tidy"
+    - go mod tidy
 
 project_name: jt
 
-gomod:
-  proxy: false
-  dir: jt-go
-
 builds:
   - id: jt
-    dir: jt-go
     main: ./cmd/jt
     binary: jt
     goos:
@@ -55,9 +50,9 @@ archives:
         formats:
           - zip
     files:
-      - README.md
-      - LICENSE
-      - config.yml.example
+      - ../README.md
+      - ../LICENSE
+      - ../config.yml.example
 
 checksum:
   name_template: 'checksums.txt'
