@@ -7,13 +7,15 @@ before:
 
 project_name: jt
 
+gomod:
+  proxy: false
+  dir: jt-go
+
 builds:
   - id: jt
     dir: jt-go
-    main: ./cmd/jt/
+    main: ./cmd/jt
     binary: jt
-    gomod:
-      proxy: false
     goos:
       - linux
       - darwin
