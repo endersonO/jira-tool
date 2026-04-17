@@ -51,11 +51,11 @@ func runInit() error {
 		return fmt.Errorf("server, email, and token are required")
 	}
 
-	home, err := os.UserHomeDir()
+	configDir, err := os.UserConfigDir()
 	if err != nil {
-		return err
+		return fmt.Errorf("finding config directory: %w", err)
 	}
-	dir := filepath.Join(home, ".config", "jt")
+	dir := filepath.Join(configDir, "jt")
 	if err := os.MkdirAll(dir, 0700); err != nil {
 		return fmt.Errorf("creating config directory: %w", err)
 	}

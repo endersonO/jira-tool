@@ -14,11 +14,55 @@ A fast, single-binary CLI for Jira Cloud, inspired by `gh`. Built for developers
 
 ## Installation
 
-### Prerequisites
+### Option 1: Quick Install Script (macOS / Linux — Recommended)
 
-- [Go 1.21+](https://go.dev/dl/)
+```bash
+curl -fsSL https://raw.githubusercontent.com/endersonO/jira-tool/main/install.sh | sh
+```
 
-### Install
+This auto-detects your OS and architecture, downloads the correct binary, and installs it to `/usr/local/bin`.
+
+### Option 2: Download Binary Manually
+
+Download the latest release for your platform from the [Releases page](https://github.com/endersonO/jira-tool/releases/latest).
+
+**macOS:**
+```bash
+# Apple Silicon (M1/M2/M3/M4)
+curl -fsSL https://github.com/endersonO/jira-tool/releases/latest/download/jt_darwin_arm64.tar.gz -o jt.tar.gz
+
+# Intel Mac
+curl -fsSL https://github.com/endersonO/jira-tool/releases/latest/download/jt_darwin_amd64.tar.gz -o jt.tar.gz
+
+# Extract and install
+tar -xzf jt.tar.gz
+sudo mv jt /usr/local/bin/
+rm jt.tar.gz
+jt --version
+```
+
+**Linux:**
+```bash
+# AMD64
+curl -fsSL https://github.com/endersonO/jira-tool/releases/latest/download/jt_linux_amd64.tar.gz -o jt.tar.gz
+
+# ARM64
+curl -fsSL https://github.com/endersonO/jira-tool/releases/latest/download/jt_linux_arm64.tar.gz -o jt.tar.gz
+
+# Extract and install
+tar -xzf jt.tar.gz
+sudo mv jt /usr/local/bin/
+rm jt.tar.gz
+jt --version
+```
+
+**Windows:**
+1. Download `jt_windows_amd64.zip` from the [Releases page](https://github.com/endersonO/jira-tool/releases/latest)
+2. Extract the ZIP file
+3. Move `jt.exe` to a folder in your PATH (e.g., `C:\Users\<you>\bin\`)
+4. Open a new terminal and run `jt --version`
+
+### Option 3: Install from Source (Requires Go 1.26+)
 
 ```bash
 go install github.com/endersonO/jt/cmd/jt@latest
@@ -48,7 +92,10 @@ Default project key (optional): SCRUM
 
 > Generate your API token at: https://id.atlassian.com/manage-profile/security/api-tokens
 
-Config is saved to `~/.config/jt/config.yml` (never inside the repo).
+Config is saved to your OS config directory:
+- **macOS:** `~/Library/Application Support/jt/config.yml`
+- **Linux:** `~/.config/jt/config.yml`
+- **Windows:** `%APPDATA%\jt\config.yml`
 
 ---
 
@@ -199,9 +246,19 @@ Run `jt init` to set up your credentials.
 - Run `jt init` to update your credentials
 
 **`jt: command not found`**
-Make sure `~/go/bin` is in your PATH:
+Make sure the binary is in your PATH:
 ```bash
+# If installed via install.sh or manual download:
+which jt  # should show /usr/local/bin/jt
+
+# If installed via go install:
 export PATH="$HOME/go/bin:$PATH"
+```
+
+**macOS: "jt can't be opened because it is from an unidentified developer"**
+```bash
+# Remove the quarantine attribute
+xattr -d com.apple.quarantine /usr/local/bin/jt
 ```
 
 **Old version still running**

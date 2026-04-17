@@ -1,6 +1,9 @@
 # Sensitive configuration files
 config.yml
 
+# GoReleaser output
+dist/
+
 # Python
 __pycache__/
 *.py[cod]

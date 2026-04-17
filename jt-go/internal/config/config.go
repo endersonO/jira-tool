@@ -19,12 +19,21 @@ func Load() (*Config, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 
-	// ~/.config/jt/config.yml
-	home, err := os.UserHomeDir()
+	// Use OS-standard config directory:
+	//   macOS:   ~/Library/Application Support/jt
+	//   Linux:   ~/.config/jt  (XDG_CONFIG_HOME)
+	//   Windows: %APPDATA%\jt
+	configDir, err := os.UserConfigDir()
 	if err != nil {
 		return nil, err
 	}
-	viper.AddConfigPath(filepath.Join(home, ".config", "jt"))
+	viper.AddConfigPath(filepath.Join(configDir, "jt"))
+
+	// Also support legacy ~/.config/jt path (backwards compat on macOS)
+	home, _ := os.UserHomeDir()
+	if home != "" {
+		viper.AddConfigPath(filepath.Join(home, ".config", "jt"))
+	}
 
 	// Also allow config in current directory (for development)
 	viper.AddConfigPath(".")
@@ -63,6 +72,10 @@ func Load() (*Config, error) {
 }
 
 func ConfigPath() string {
-	home, _ := os.UserHomeDir()
-	return filepath.Join(home, ".config", "jt", "config.yml")
+	configDir, err := os.UserConfigDir()
+	if err != nil {
+		home, _ := os.UserHomeDir()
+		return filepath.Join(home, ".config", "jt", "config.yml")
+	}
+	return filepath.Join(configDir, "jt", "config.yml")
 }
